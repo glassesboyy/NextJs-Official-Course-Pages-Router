@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import { useState } from "react";
 import Date from "../components/date";
 import Layout, { siteTitle } from "../components/layout";
 import { getSortedPostsData } from "../lib/posts";
@@ -15,6 +16,12 @@ export async function getStaticProps() {
 }
 
 export default function Home({ allPostsData }) {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredPosts = allPostsData.filter((post) =>
+    post.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <Layout home>
       <Head>
@@ -28,31 +35,48 @@ export default function Home({ allPostsData }) {
           web applications, I bring ideas to life through code and creativity.
         </p>
         <p>
-          (This is a demo website — you’ll learn how to build a site like this
-          by following the{" "}
+          (This is a demo website — you'll learn how to build a site like this
+          by following the official{" "}
           <a
             href="https://nextjs.org/learn"
             target="_blank"
             rel="noopener noreferrer"
           >
-            official Next.js tutorial
+            Next.js tutorial
           </a>
           .)
         </p>
       </section>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
-        <ul className={utilStyles.list}>
-          {allPostsData.map(({ id, date, title }) => (
-            <li className={utilStyles.listItem} key={id}>
-              <Link href={`/posts/${id}`}>{title}</Link>
-              <br />
-              <small className={utilStyles.lightText}>
-                <Date dateString={date} />
-              </small>
-            </li>
-          ))}
-        </ul>
+
+        <div className={utilStyles.searchContainer}>
+          <input
+            type="text"
+            placeholder="Search blog posts..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={utilStyles.searchInput}
+          />
+        </div>
+
+        {filteredPosts.length === 0 ? (
+          <p className={utilStyles.noResults}>
+            No blog posts found matching your search.
+          </p>
+        ) : (
+          <ul className={utilStyles.list}>
+            {filteredPosts.map(({ id, date, title }) => (
+              <li className={utilStyles.listItem} key={id}>
+                <Link href={`/posts/${id}`}>{title}</Link>
+                <br />
+                <small className={utilStyles.lightText}>
+                  <Date dateString={date} />
+                </small>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
     </Layout>
   );
