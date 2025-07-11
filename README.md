@@ -1,4 +1,4 @@
-# Next.js Blog - Personal Blog by Next.js Page Router Course
+# Next.js Blog - Personal Blogging Platform with Markdown & SSG
 
 This is a personal blog application built following the [Next.js Page Router Course](https://nextjs.org/learn) from the official Next.js documentation.
 
@@ -46,7 +46,7 @@ This is a personal blog application built following the [Next.js Page Router Cou
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 14+ (Page Router)
+- **Framework**: Next.js 15+ (Page Router)
 - **Styling**: CSS Modules + Global CSS
 - **Content**: Markdown with gray-matter
 - **Markdown Processing**: Remark + remark-html
